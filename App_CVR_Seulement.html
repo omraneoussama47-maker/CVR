@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saisie CVR — OMRANE Oussama</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;background:#f0f2f7;min-height:100vh;padding:16px;}
+.header{background:#1c2b4a;border-radius:12px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.icon{width:38px;height:38px;background:#7c3aed;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.htitle{color:white;font-weight:600;font-size:14px;}
+.hsub{color:#94a3b8;font-size:11px;margin-top:2px;}
+.badge{margin-left:auto;background:#7c3aed;color:white;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;}
+.panel{background:white;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin-bottom:14px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.field label{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px;}
+.field input{width:100%;padding:7px 10px;font-size:12px;border:1.5px solid #e2e8f0;border-radius:7px;outline:none;background:#f8fafc;}
+.field input:focus{border-color:#7c3aed;background:white;}
+.items{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.item-block{background:#f8fafc;border-radius:10px;padding:14px;}
+.item-title{font-size:11px;font-weight:700;color:#1c2b4a;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.item-num{background:#1c2b4a;color:white;font-size:10px;width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ver-block{margin-bottom:12px;}
+.ver-lbl{font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin-bottom:6px;}
+.cvr-btns{display:flex;flex-direction:column;gap:4px;}
+.cvr-btn{padding:7px 10px;border:1px solid #e2e8f0;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;background:white;color:#94a3b8;text-align:left;transition:all .12s;}
+.cvr-btn:hover{border-color:#7c3aed;color:#7c3aed;}
+.cvr-btn.sel-ess{background:#7c3aed;border-color:#7c3aed;color:white;font-weight:700;}
+.cvr-btn.sel-uti{background:#0891b2;border-color:#0891b2;color:white;}
+.cvr-btn.sel-non{background:#dc2626;border-color:#dc2626;color:white;}
+.add-btn{width:100%;padding:11px;background:#7c3aed;color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;}
+.add-btn:hover{background:#6d28d9;}
+.table-panel{background:white;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;}
+.table-top{padding:12px 18px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;}
+.table-top span{font-size:13px;font-weight:600;}
+.btn-group{display:flex;gap:8px;}
+.csv-btn{padding:7px 18px;background:#16a34a;color:white;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;}
+.csv-btn:hover{background:#15803d;}
+.clear-btn{padding:7px 12px;background:transparent;color:#dc2626;border:1px solid #dc2626;border-radius:6px;font-size:12px;cursor:pointer;}
+.clear-btn:hover{background:#dc2626;color:white;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+thead th{background:#f8fafc;color:#94a3b8;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:9px 12px;text-align:center;border-bottom:1px solid #e2e8f0;}
+tbody tr{border-bottom:1px solid #e2e8f0;}
+tbody tr:hover{background:#f8fafc;}
+tbody td{padding:8px 12px;text-align:center;}
+.v1{color:#7c3aed;font-weight:700;}
+.v0{color:#dc2626;font-weight:700;}
+.del-btn{background:none;border:none;cursor:pointer;font-size:14px;color:#94a3b8;}
+.del-btn:hover{color:#dc2626;}
+.empty{text-align:center;padding:30px;color:#94a3b8;font-size:13px;}
+.toast{position:fixed;bottom:20px;right:20px;padding:10px 18px;border-radius:8px;font-size:12px;font-weight:500;transform:translateY(60px);opacity:0;transition:all .25s;z-index:999;color:white;}
+.toast.show{transform:translateY(0);opacity:1;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="icon">📏</div>
+  <div>
+    <div class="htitle">Saisie CVR — Content Validity Ratio</div>
+    <div class="hsub">OMRANE Oussama · Pr. ELFAGRICH Mahfoud · CRMEF de Fès · 2025-2026</div>
+  </div>
+  <div class="badge" id="cnt">0 experts</div>
+</div>
+
+<div class="panel">
+  <div class="row3">
+    <div class="field"><label>Nom de l'expert</label><input id="nom" placeholder="Pr. Martin"></div>
+    <div class="field"><label>Spécialité</label><input id="spec" placeholder="Physique-Chimie, 3AC"></div>
+    <div class="field"><label>Date</label><input id="date" type="date"></div>
+  </div>
+
+  <div class="items">
+    <div class="item-block">
+      <div class="item-title"><div class="item-num">I1</div>Résistance — Effet sur le courant</div>
+      <div class="ver-block">
+        <div class="ver-lbl">Pré-test (Version A)</div>
+        <div class="cvr-btns" id="i1a">
+          <button class="cvr-btn" onclick="sC('i1a','ess',this)">✅ Essentiel</button>
+          <button class="cvr-btn" onclick="sC('i1a','uti',this)">🔶 Utile, non essentiel</button>
+          <button class="cvr-btn" onclick="sC('i1a','non',this)">❌ Non essentiel</button>
+        </div>
+      </div>
+      <div class="ver-block" style="margin-bottom:0">
+        <div class="ver-lbl">Post-test (Version B)</div>
+        <div class="cvr-btns" id="i1b">
+          <button class="cvr-btn" onclick="sC('i1b','ess',this)">✅ Essentiel</button>
+          <button class="cvr-btn" onclick="sC('i1b','uti',this)">🔶 Utile, non essentiel</button>
+          <button class="cvr-btn" onclick="sC('i1b','non',this)">❌ Non essentiel</button>
+        </div>
+      </div>
+    </div>
+    <div class="item-block">
+      <div class="item-title"><div class="item-num">I2</div>Résistance — Rôle et unité</div>
+      <div class="ver-block">
+        <div class="ver-lbl">Pré-test (Version A)</div>
+        <div class="cvr-btns" id="i2a">
+          <button class="cvr-btn" onclick="sC('i2a','ess',this)">✅ Essentiel</button>
+          <button class="cvr-btn" onclick="sC('i2a','uti',this)">🔶 Utile, non essentiel</button>
+          <button class="cvr-btn" onclick="sC('i2a','non',this)">❌ Non essentiel</button>
+        </div>
+      </div>
+      <div class="ver-block" style="margin-bottom:0">
+        <div class="ver-lbl">Post-test (Version B)</div>
+        <div class="cvr-btns" id="i2b">
+          <button class="cvr-btn" onclick="sC('i2b','ess',this)">✅ Essentiel</button>
+          <button class="cvr-btn" onclick="sC('i2b','uti',this)">🔶 Utile, non essentiel</button>
+          <button class="cvr-btn" onclick="sC('i2b','non',this)">❌ Non essentiel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="add-btn" onclick="addEntry()">+ Enregistrer évaluation CVR</button>
+</div>
+
+<div class="table-panel">
+  <div class="table-top">
+    <span>Matrice B_CVR — <span id="nb">0</span> expert(s)</span>
+    <div class="btn-group">
+      <button class="csv-btn" onclick="exportCSV()">⬇ Exporter CSV</button>
+      <button class="clear-btn" onclick="clearAll()">Effacer</button>
+    </div>
+  </div>
+  <div id="tbl"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const EVALS=['i1a','i1b','i2a','i2b'];
+const ELBL=['I1-PreA','I1-PostB','I2-PreA','I2-PostB'];
+const cs={};
+const VAL={ess:1,uti:0,non:0};
+
+function sC(id,val,btn){
+  cs[id]=val;
+  document.querySelectorAll('#'+id+' .cvr-btn').forEach(b=>b.className='cvr-btn');
+  btn.classList.add('sel-'+val);
+}
+
+let data=JSON.parse(localStorage.getItem('cvr_only_final')||'[]');
+
+function save(){
+  localStorage.setItem('cvr_only_final',JSON.stringify(data));
+  document.getElementById('cnt').textContent=data.length+' expert'+(data.length!==1?'s':'');
+  document.getElementById('nb').textContent=data.length;
+  renderTable();
+}
+
+function addEntry(){
+  const nom=document.getElementById('nom').value.trim();
+  const spec=document.getElementById('spec').value.trim();
+  const date=document.getElementById('date').value;
+  if(!nom||!spec||!date){toast('Remplissez tous les champs.','#dc2626');return;}
+  for(const e of EVALS){if(!cs[e]){toast('Évaluez '+e+'.','#dc2626');return;}}
+  const vals={};EVALS.forEach(e=>vals[e]=cs[e]);
+  data.push({id:Date.now(),nom,spec,date,...vals});
+  save();reset();toast(nom+' enregistré.','#16a34a');
+}
+
+function reset(){
+  ['nom','spec','date'].forEach(f=>document.getElementById(f).value='');
+  EVALS.forEach(e=>{cs[e]=null;document.querySelectorAll('#'+e+' .cvr-btn').forEach(b=>b.className='cvr-btn');});
+}
+
+function del(id){data=data.filter(e=>e.id!==id);save();toast('Supprimé.','#1c2b4a');}
+function clearAll(){if(!confirm('Effacer toutes les données ?'))return;data=[];save();}
+
+function renderTable(){
+  const c=document.getElementById('tbl');
+  if(!data.length){c.innerHTML='<div class="empty">Aucune donnée saisie.</div>';return;}
+  const rows=data.map((e,i)=>`<tr>
+    <td style="color:#94a3b8;font-weight:600">${i+1}</td>
+    <td style="font-weight:600;text-align:left">${e.nom}</td>
+    <td style="color:#94a3b8;text-align:left">${e.spec}</td>
+    <td style="color:#94a3b8">${e.date}</td>
+    ${EVALS.map(ev=>`<td class="${VAL[e[ev]]===1?'v1':'v0'}">${VAL[e[ev]]}</td>`).join('')}
+    <td><button class="del-btn" onclick="del(${e.id})">🗑</button></td>
+  </tr>`).join('');
+  c.innerHTML=`<table>
+    <thead><tr>
+      <th>#</th><th style="text-align:left">Expert</th><th style="text-align:left">Spécialité</th><th>Date</th>
+      ${ELBL.map(l=>`<th>${l}</th>`).join('')}<th></th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function exportCSV(){
+  if(!data.length){toast('Aucune donnée.','#dc2626');return;}
+  const SEP=';';
+  const h=['Expert','Specialite','Date',...ELBL];
+  const rows=data.map(e=>[`"${e.nom}"`,`"${e.spec}"`,e.date,...EVALS.map(ev=>VAL[e[ev]])].join(SEP));
+  const csv='sep=;\r\n\uFEFF'+[h.join(SEP),...rows].join('\r\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download='B_CVR_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+  toast('CSV exporté !','#16a34a');
+}
+
+function toast(msg,col){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.background=col;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+save();
+</script>
+</body>
+</html>
